@@ -1,103 +1,33 @@
-Contributing Guidelines
-Ref: https://openwrt.org/docs/guide-developer/packages for overall format and construction
+# How to become a contributor and submit your own code
 
-Basic guidelines
-All packages you commit or submit by pull-request should follow these simple guidelines:
+## Contributor License Agreements
 
-Package a version which is still maintained by the upstream author and will be updated regularly with supported versions.
-Have no dependencies outside the OpenWrt core packages or this repository feed.
-Have been tested to compile with the correct includes and dependencies. Please also test with "Compile with full language support" found under "General Build Settings" set if language support is relevant to your package.
-Best of all -- it works as expected!
-Package Sources (archives and repositories)
-PKG_SOURCE should reference the smallest available archive. In order of preference: xz (most compressed), bzip2, gz and zip. As a last resort, downloads from source repositories can be used.
-PKG_SOURCE_URL should link to an official release archive. Use of HTTPS: is preferred. If a source archive is not available, a locally generated archive fetched using git, svn, cvs or in rare circumstances, hg or bzr.
-Convenience macros for popular mirrors are defined. Using these macros will make your package downloads more robust by mapping to a list of possible source mirrors for archive availability.
-@SF - Sourceforge (downloads.sourceforge.net) with 5 retries due to re-directs
-@GITHUB - Github (raw.githubusercontent.com) with 5 retries due to re-directs
-@GNU - 8 regional servers
-@GNOME - 8 regional servers
-@SAVANNAH - 8 regional servers
-@APACHE - 8 regional servers
-@KERNEL - Linux kernel archives & mirrors
-Please DO NOT use an archive which changes over time. A version labeled "latest" is not constant each download. Also, using the head of a branch will create unpredictable results which can be different each build.
-Makefile contents should contain:
-Provide an up-to-date Copyright notice or none. Copyright should not be assigned to OpenWrt unless you are explicitly requested by or working under contract to OpenWrt. Assigning a Copyright to yourself or organization you represent is acceptable.
-A (PKG_)MAINTAINER definition listing either yourself and/or another person responsible for this package (E.g.: PKG_MAINTAINER:= Joe D. Hacker <jdh@jdhs-email-provider.org>). Listing multiple maintainers is encouraged in order to keep the package active and up-to-date. Leaving this blank will also be accepted, however the review process may not be as quick as one with a maintainer.
-A PKG_LICENSE tag declaring the main license of the package. (E.g.: PKG_LICENSE:=GPL-2.0-or-later) Please use SPDX identifiers if possible (see list at the bottom).
-An optional PKG_LICENSE_FILES tag including the filenames of the license-files in the source-package. (E.g.: PKG_LICENSE_FILES:=COPYING)
-PKG_RELEASE should be initially set to 1 or reset to 1 if the software version is changed. You should increment it if the package itself has changed. For example, modifying a support script, changing configure options like --disable* or --enable* switches, or if you changed something in the package which causes the resulting binaries to be different. Changes like correcting md5sums, changing mirror URLs, adding a maintainer field or updating a comment or copyright year in a Makefile do not require a change to PKG_RELEASE.
-Avoid reuse of PKG_NAME in call, define and eval lines to improve readability.
-Commits in your pull-requests should:
-Have a useful description prefixed with the package name (E.g.: "foopkg: Add libzot dependency")
-Include Signed-off-by tag in the commit comments. See: Sign your work
-Advice on pull requests:
-Pull requests are the easiest way to contribute changes to git repos at Github. They are the preferred contribution method, as they offer a nice way for commenting and amending the proposed changes.
+We'd love to accept your patches! Before we can take them, we
+have to jump a couple of legal hurdles.
 
-You need a local "fork" of the Github repo.
+Please fill out either the individual or corporate Contributor License Agreement
+(CLA).
 
-Use a "feature branch" for your changes. That separates the changes in the pull request from your other changes and makes it easy to edit/amend commits in the pull request. Workflow using "feature_x" as the example:
+  * If you are an individual writing original source code and you're sure you
+    own the intellectual property, then you'll need to sign an 
+    [individual CLA](https://developers.google.com/open-source/cla/individual).
+  * If you work for a company that wants to allow you to contribute your work,
+    then you'll need to sign a 
+    [corporate CLA](https://developers.google.com/open-source/cla/corporate).
 
-Update your local git fork to the tip (of the master, usually)
-Create the feature branch with git checkout -b feature_x
-Edit changes and commit them locally
-Push them to your Github fork by git push -u origin feature_x. That creates the "feature_x" branch at your Github fork and sets it as the remote of this branch
-When you now visit Github, you should see a proposal to create a pull request
-If you later need to add new commits to the pull request, you can simply commit the changes to the local branch and then use git push to automatically update the pull request.
+Follow either of the two links above to access the appropriate CLA and
+instructions for how to sign and return it. Once we receive it, we'll be able to
+accept your pull requests.
 
-If you need to change something in the existing pull request (e.g. to add a missing signed-off-by line to the commit message), you can use git push -f to overwrite the original commits. That is easy and safe when using a feature branch. Example workflow:
+## Contributing A Patch
 
-Checkout the feature branch by git checkout feature_x
-Edit changes and commit them locally. If you are just updating the commit message in the last commit, you can use git commit --amend to do that
-If you added several new commits or made other changes that require cleaning up, you can use git rebase -i HEAD~X (X = number of commits to edit) to possibly squash some commits
-Push the changed commits to Github with git push -f to overwrite the original commits in the "feature_x" branch with the new ones. The pull request gets automatically updated
-If you have commit access:
-Do NOT use git push --force.
-Do NOT commit to other maintainer's packages without their consent.
-Use Pull Requests if you are unsure and to suggest changes to other maintainers.
-Gaining commit access:
-We will gladly grant commit access to responsible contributors who have made useful pull requests and / or feedback or patches to this repository or OpenWrt in general. Please include your request for commit access in your next pull request or ticket.
-Release Branches:
-Branches named "for-XX.YY" (e.g. for-14.07) are release branches.
-These branches are built with the respective OpenWrt release and are created during the release stabilisation phase.
-Please ONLY cherry-pick or commit security and bug-fixes to these branches.
-Do NOT add new packages and do NOT do major upgrades of packages here.
-If you are unsure if your change is suitable, please use a pull request.
-Common LICENSE tags (short list)
-(Complete list can be found at: https://spdx.org/licenses)
-
-Full Name	Identifier
-Apache License 1.0	Apache-1.0
-Apache License 1.1	Apache-1.1
-Apache License 2.0	Apache-2.0
-Artistic License 1.0	Artistic-1.0
-Artistic License 1.0 w/clause 8	Artistic-1.0-cl8
-Artistic License 1.0 (Perl)	Artistic-1.0-Perl
-Artistic License 2.0	Artistic-2.0
-BSD 2-Clause "Simplified" License	BSD-2-Clause
-BSD 2-Clause FreeBSD License	BSD-2-Clause-FreeBSD
-BSD 2-Clause NetBSD License	BSD-2-Clause-NetBSD
-BSD 3-Clause "New" or "Revised" License	BSD-3-Clause
-BSD with attribution	BSD-3-Clause-Attribution
-BSD 3-Clause Clear License	BSD-3-Clause-Clear
-BSD 4-Clause "Original" or "Old" License	BSD-4-Clause
-BSD-4-Clause (University of California-Specific)	BSD-4-Clause-UC
-BSD Protection License	BSD-Protection
-GNU General Public License v1.0 only	GPL-1.0-only
-GNU General Public License v1.0 or later	GPL-1.0-or-later
-GNU General Public License v2.0 only	GPL-2.0-only
-GNU General Public License v2.0 or later	GPL-2.0-or-later
-GNU General Public License v3.0 only	GPL-3.0-only
-GNU General Public License v3.0 or later	GPL-3.0-or-later
-GNU Lesser General Public License v2.1 only	LGPL-2.1-only
-GNU Lesser General Public License v2.1 or later	LGPL-2.1-or-later
-GNU Lesser General Public License v3.0 only	LGPL-3.0-only
-GNU Lesser General Public License v3.0 or later	LGPL-3.0-or-later
-GNU Library General Public License v2 only	LGPL-2.0-only
-GNU Library General Public License v2 or later	LGPL-2.0-or-later
-Fair License	Fair
-ISC License	ISC
-MIT License	MIT
-No Limit Public License	NLPL
-OpenSSL License	OpenSSL
-X11 License	X11
-zlib License	Zlib
+1. Submit an issue describing your proposed change to the repo in question.
+1. The repo owner will respond to your issue promptly.
+1. If your proposed change is accepted, and you haven't already done so, sign a
+   Contributor License Agreement (see details above).
+1. Fork the desired repo, develop and test your code changes.
+1. Ensure that your code adheres to the existing style in the sample to which
+   you are contributing. Refer to the 
+   [Google Cloud Platform Samples Style Guide](https://github.com/GoogleCloudPlatform/Template/wiki/style.html) for the recommended coding standards for this organization.
+1. Ensure that your code has an appropriate set of unit tests which all pass.
+1. Submit a pull request.
